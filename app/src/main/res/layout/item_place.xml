@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_item_height"
+    android:background="@drawable/rect_bg"
+    android:padding="@dimen/main_item_padding">
+
+    <ImageView
+        android:id="@+id/place_item_icon"
+        android:layout_width="@dimen/main_item_icon_width"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/place_item_venue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/main_item_text_marginStart"
+        android:layout_marginTop="@dimen/main_item_text_margin_vertical"
+        android:layout_toEndOf="@id/place_item_icon"
+        android:lines="1"
+        android:textSize="@dimen/main_item_text_textSize"/>
+
+    <TextView
+        android:id="@+id/place_item_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/main_item_text_marginStart"
+        android:layout_marginBottom="@dimen/main_item_text_margin_vertical"
+        android:layout_toEndOf="@id/place_item_icon"
+        android:lines="1"
+        android:textSize="@dimen/main_item_text_textSize"/>
+
+</RelativeLayout>

@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.EventBus
 
 object RequestManager {
 
-    private const val API_URL = "https://api.foursquare.com/v2/venues/search"
+    private const val API_URL = "https://api.foursquare.com/v2/venues/explore"
     private const val PARAM_CLIENT_ID = "client_id"
     private const val PARAM_CLIENT_SECRET = "client_secret"
     private const val PARAM_DATE = "v"
@@ -45,6 +45,7 @@ object RequestManager {
      * before the user has typed the whole search phrase.
      */
     fun requestPlaces(query: String?) {
+        // If a request is already pending, replace it with the new one.
         if (waitingRunnable != null) {
             handler.removeCallbacks(waitingRunnable!!)
             waitingRunnable = null
@@ -57,6 +58,8 @@ object RequestManager {
             EventBus.getDefault().post(ContentReadyEvent(null))
             return
         }
+
+        // Send a delayed request.
 
         waitingRunnable = Runnable {
             Thread { sendRequest(query.trim()) }.start()

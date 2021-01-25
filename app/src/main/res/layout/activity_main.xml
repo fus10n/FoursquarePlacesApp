@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="@dimen/main_padding">
-
-    <Button
-        android:id="@+id/main_search_btn"
-        android:layout_width="@dimen/main_search_btn_width"
-        android:layout_height="@dimen/main_search_btn_height"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="@dimen/main_padding"
-        android:background="@drawable/rect_oval_bg"
-        android:onClick="onSearchButtonClick"
-        android:text="@string/main_search_btn_text"
-        android:textAllCaps="false"
-        android:textSize="@dimen/main_search_btn_textSize"/>
 
     <EditText
         android:id="@+id/main_search_edittext"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_search_input_height"
-        android:layout_alignTop="@id/main_search_btn"
-        android:layout_alignBottom="@id/main_search_btn"
-        android:layout_toStartOf="@id/main_search_btn"
         android:background="@drawable/rect_bg"
         android:hint="@string/main_search_input_hint"
         android:padding="@dimen/main_search_input_padding"
@@ -33,7 +19,6 @@
         android:id="@+id/main_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/main_search_edittext"
         android:layout_marginTop="@dimen/main_padding"/>
 
-</RelativeLayout>
+</LinearLayout>

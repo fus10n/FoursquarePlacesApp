@@ -1,28 +1,27 @@
 # Foursquare places demo app
 
 ### Architectural pattern
-Due to the little functional requirements, there was no benefit in going for the more complex
-MVP and MVVM patterns. Instead I've made use of the simple MVC.
-That said, I fully understand the benefits of the other patterns, which simplify testing and also
-strip activities off code which is not UI related, improving readability and possibly re-using the
-same code.
+I've chosen my favourite MVP (model-view-presenter). It's advantage over the old MVC pattern is improved
+availability for testing and also stripping activities off code which is not UI related,
+improving readability and possibly re-using the same code.
 Regardless of the small size of the project, I've provided good code separation for the different
 logical units of the project (UI, networking, domains).
 
 ### User Interface (UI)
-RelativeLayout as the root view - more optimized than nested LinearLayouts.
+Simple LinearLayout as the UI only contains 2 views.
 RecyclerView for listing the places - more optimized than a standard ListView due to recycling of
 items that have been scrolled out of the screen.
 
-### Communication
+### In-code communication
 I've made use of the 3rd party EventBus. In my opinion it's the most convenient method for passing
 data between different entities of the project.  Passing interface callbacks is also an option,
-however in more complex code structures it's more difficult to achieve and results in poor readability.
+however in more complex code structures it's more difficult to achieve and results in stacking of
+interfaces and functions, which leads to poor readability.
 
 ### Functionality algorithm
 1. User types a search phrase in the search field
-2. User clicks the search button
-3. An HTTPS "GET" request is sent from the RequestManager to the backend with certain request parameters, including the search phrase
+2. The text is automatically analysed by the TextWatcher on the input field (EditText)
+3. An HTTPS "GET" request is automatically sent from the RequestManager to the backend with certain request parameters, including the search phrase
 4. Backend responds with a JSON containing all places that reflect the request parameters, again inside the RequestManager
 5. RequestManager calls the ContentManager to parse and process the JSON response.
 6. ContentManager builds UI content out of the JSON data and sends it via the EventBus

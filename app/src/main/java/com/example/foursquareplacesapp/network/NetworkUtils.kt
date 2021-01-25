@@ -5,6 +5,8 @@ import android.util.Log
 import com.example.foursquareplacesapp.domains.KVPair
 
 import java.io.BufferedWriter
+import java.io.IOException
+import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.lang.StringBuilder
 import java.net.URLConnection
@@ -14,32 +16,53 @@ object NetworkUtils {
 
     private const val CHARSET = "UTF-8"
 
+    /**
+     * Encode the specified String into a URL compatible format.
+     */
     private fun encode(requestParam: String): String =
         URLEncoder.encode(requestParam, CHARSET)
 
+    /**
+     * Write the specified key-value pair objects as request parameters into the specified URL connection.
+     */
     fun writeRequestParams(connection: URLConnection, vararg paramPairs: KVPair<String, String>) {
-        if (paramPairs.isEmpty())
+        if (paramPairs.isNullOrEmpty())
             return
 
-        val stringBuilder = StringBuilder()
+        val paramsBuilder = StringBuilder()
         for (pair in paramPairs) {
-            if (stringBuilder.isNotEmpty())
-                stringBuilder.append('&')
+            if (paramsBuilder.isNotEmpty())
+                paramsBuilder.append('&')
 
-            stringBuilder.append(encode(pair.key)).append('=').append(encode(pair.value))
+            paramsBuilder.append(encode(pair.key)).append('=').append(encode(pair.value))
         }
 
-        Log.d("writing request params", stringBuilder.toString())
+        Log.d("writing request params", paramsBuilder.toString())
 
-        connection.doOutput = true
-        val outputStream = connection.getOutputStream()
+        try {
+            connection.doOutput = true
+        } catch (ignore: IllegalStateException) {}
 
-        val writer = BufferedWriter(OutputStreamWriter(outputStream, CHARSET))
-        writer.write(stringBuilder.toString())
-        writer.flush()
-        writer.close()
+        var outputStream: OutputStream? = null
 
-        outputStream.close()
+        try {
+            outputStream = connection.getOutputStream()
+
+            BufferedWriter(OutputStreamWriter(outputStream, CHARSET)).apply {
+                write(paramsBuilder.toString())
+                flush()
+                close()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            if (outputStream != null)
+                try {
+                    outputStream.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+        }
     }
 
 }

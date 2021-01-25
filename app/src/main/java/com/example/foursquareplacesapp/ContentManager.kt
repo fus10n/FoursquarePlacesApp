@@ -19,6 +19,7 @@ object ContentManager {
                 icon = item.venue.categories[0].icon
                 itemsList.add(
                     PlaceItem(
+                        item.referralId,
                         icon.prefix.replace("*", icon.suffix),
                         item.venue.name,
                         item.venue.location.address
